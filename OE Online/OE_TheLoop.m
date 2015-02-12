@@ -347,19 +347,19 @@ if ~isequal(size(find(cellfun('isempty', spikes_per_trial)>0),1), size(spikes_pe
 			if ~isempty(vo)
 				for y=1:logical_vars
 					if logical_vars==2;
-					psth_fig_handle(y)=figure('Position', [10+(950*(y-1)) , 100, 900, 900])
+					psth_fig_handle(y)=figure('Position', [10+(800*(y-1)) , 100, 700, 700])
 					elseif logical_vars==4
 						if y<3
-						psth_fig_handle(y)=figure('Position', [10+(950*(y-1)) , 100, 900, 450])
+						psth_fig_handle(y)=figure('Position', [10+(800*(y-1)) , 100, 700, 350])
 						else
-						psth_fig_handle(y)=figure('Position', [10+(950*(y-3)) , 650, 900, 450])
+						psth_fig_handle(y)=figure('Position', [10+(800*(y-3)) , 500, 700, 350])
 						end
 					end
 				end
 					
 					%PSTH_fig_handle(y)=subplot(2,2,y)
 			else
-					psth_fig_handle=figure('Position', [10 , 100, 1800, 900]);
+					psth_fig_handle=figure('Position', [10 , 100, 1500, 700]);
 			end
 			
 			
@@ -406,19 +406,19 @@ if ~isequal(size(find(cellfun('isempty', spikes_per_trial)>0),1), size(spikes_pe
 				
 				for y=1:logical_vars
 					if logical_vars==2;
-						heat_fig_handle(y)=figure('Position', [10+(950*(y-1)) , 100, 900, 900])
+						heat_fig_handle(y)=figure('Position', [10+(800*(y-1)) , 100, 700, 700])
 					elseif logical_vars==4
 						if y<3
-							heat_fig_handle(y)=figure('Position', [10+(950*(y-1)) , 100, 900, 450])
+							heat_fig_handle(y)=figure('Position', [10+(800*(y-1)) , 100, 700, 350])
 						else
-							heat_fig_handle(y)=figure('Position', [10+(950*(y-3)) , 650, 900, 450])
+							heat_fig_handle(y)=figure('Position', [10+(800*(y-3)) , 500, 700, 350])
 						end
 					end
 				end
 				
 				
 			else
-				heat_fig_handle=figure('Position', [10 , 100, 1800, 900]);
+				heat_fig_handle=figure('Position', [10 , 100, 1500, 700]);
 			end
 		end
 		
