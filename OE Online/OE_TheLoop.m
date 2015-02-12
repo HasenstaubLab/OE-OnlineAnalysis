@@ -15,7 +15,7 @@ trial_start_times=[];
 
 %Make figure that, when selected, allows a press of the shift key to halt
 %the while loop
-usershutdownhandle=figure('Name', 'PSTHs');
+usershutdownhandle=figure('Name', 'Shutdown Controller');
 set(usershutdownhandle,'Position', [0, 100, 350, 75]);
 axis([0 175 0 60]);
 set(gca,'XTick',[],'YTick',[]);
@@ -303,7 +303,7 @@ end
 vo = [v_prms' o_prms'];
 
 
-
+scrnsize=get(0,'screensize');
 
 
 if ~isequal(size(find(cellfun('isempty', spikes_per_trial)>0),1), size(spikes_per_trial),1)
@@ -347,19 +347,22 @@ if ~isequal(size(find(cellfun('isempty', spikes_per_trial)>0),1), size(spikes_pe
 			if ~isempty(vo)
 				for y=1:logical_vars
 					if logical_vars==2;
-					psth_fig_handle(y)=figure('Position', [10+(800*(y-1)) , 100, 700, 700])
+					psth_fig_handle(y)=figure('Position',[(50+((round(scrnsize(3)*.45)+50)*(y-1))), (scrnsize(4)-round(scrnsize(4)*.45)-100), round(scrnsize(3)*.45), round(scrnsize(4)*.45)]);
+
 					elseif logical_vars==4
 						if y<3
-						psth_fig_handle(y)=figure('Position', [10+(800*(y-1)) , 100, 700, 350])
+						psth_fig_handle(y)=figure('Position',[(50+((round(scrnsize(3)*.40)+50)*(y-1))), (scrnsize(4)-(round(round(scrnsize(4)*.40)*2.2))-100), round(scrnsize(3)*.40), round(scrnsize(4)*.40)]);
+	
 						else
-						psth_fig_handle(y)=figure('Position', [10+(800*(y-3)) , 500, 700, 350])
+							psth_fig_handle(y)=figure('Position',[(50+((round(scrnsize(3)*.40)+50)*(y-3))), (scrnsize(4)-round(scrnsize(4)*.40)-100), round(scrnsize(3)*.40), round(scrnsize(4)*.40)]);
 						end
 					end
 				end
 					
 					%PSTH_fig_handle(y)=subplot(2,2,y)
 			else
-					psth_fig_handle=figure('Position', [10 , 100, 1500, 700]);
+				psth_fig_handle=figure('Position',[50, (scrnsize(4)-round(scrnsize(4)*.6)-100), round(scrnsize(3)*.6), round(scrnsize(4)*.6)]);
+
 			end
 			
 			
@@ -406,19 +409,19 @@ if ~isequal(size(find(cellfun('isempty', spikes_per_trial)>0),1), size(spikes_pe
 				
 				for y=1:logical_vars
 					if logical_vars==2;
-						heat_fig_handle(y)=figure('Position', [10+(800*(y-1)) , 100, 700, 700])
+						heat_fig_handle(y)=figure('Position', [(50+((round(scrnsize(3)*.45)+50)*(y-1))), (scrnsize(4)-round(scrnsize(4)*.45)-100), round(scrnsize(3)*.45), round(scrnsize(4)*.45)]);
 					elseif logical_vars==4
 						if y<3
-							heat_fig_handle(y)=figure('Position', [10+(800*(y-1)) , 100, 700, 350])
+							heat_fig_handle(y)=figure('Position', [(50+((round(scrnsize(3)*.40)+50)*(y-1))), (scrnsize(4)-(round(round(scrnsize(4)*.40)*2.2))-100), round(scrnsize(3)*.40), round(scrnsize(4)*.40)]);
 						else
-							heat_fig_handle(y)=figure('Position', [10+(800*(y-3)) , 500, 700, 350])
+							heat_fig_handle(y)=figure('Position', [(50+((round(scrnsize(3)*.40)+50)*(y-3))), (scrnsize(4)-round(scrnsize(4)*.40)-100), round(scrnsize(3)*.40), round(scrnsize(4)*.40)]);
 						end
 					end
 				end
 				
 				
 			else
-				heat_fig_handle=figure('Position', [10 , 100, 1500, 700]);
+				heat_fig_handle=figure('Position', [50, (scrnsize(4)-round(scrnsize(4)*.6)-100), round(scrnsize(3)*.6), round(scrnsize(4)*.6)]);
 			end
 		end
 		
@@ -462,10 +465,10 @@ pause(1)
 		filesize = getfilesize(fid{1},offline);
 		disp('Waiting 2 seconds, getting more data')
 		pause(2)
-		if getfilesize(fid{1},offline)==filesize
-			disp('Acqusision Halted')
-			break
-		end
+% 		if getfilesize(fid{1},offline)==filesize
+% 			disp('Acqusision Halted')
+% 			break
+% 		end
 		
 	end
 	
@@ -481,6 +484,7 @@ for x=1:size(fid,2)
 	fclose(fid{x});
 end
 %close all
+close(usershutdownhandle);
 
 
 end

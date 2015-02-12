@@ -63,17 +63,17 @@ set(heat_fig_handle, 'Name',sprintf('Channel %d, %s, %s',channel_plot,vis_stat, 
 	colormap(cmap);
 	
 	
-	h=ylabel(y_sel, 'FontSize', 12);
+	h=ylabel(y_sel, 'FontSize', 8);
 	set(h, 'interpreter','none') %removes tex interpretation rules
-	h=xlabel(x_sel, 'FontSize', 12);
+	h=xlabel(x_sel, 'FontSize', 8);
 	set(h, 'interpreter','none') %removes tex interpretation rules
 
 	set(gca, 'YTick', [1:nr_uniq_y]);
 	set(gca, 'YTickLabel', uniq_y);
 	set(gca, 'XTick', [1:nr_uniq_x]);
 	set(gca, 'XTickLabel', uniq_x);
-	
-	title(sprintf('Channel %d, %s, %s',channel_plot,vis_stat, opto_stat),'FontSize',12);
+	set(gca,'fontsize',8);
+	title(sprintf('Channel %d, %s, %s',channel_plot,vis_stat, opto_stat),'FontSize',10);
 		
 
 

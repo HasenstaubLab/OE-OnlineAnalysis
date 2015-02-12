@@ -134,6 +134,11 @@ else
     fprintf('Loading stimulus parametrs from %s\n', stimfile);
     
     load([trial_info_dir stimfile]);
+	
+	%If we aren't looping any variable... Need to get stimu
+	if isempty (stim_vals)
+		
+	end
 end
 
 OE_TheLoop(chanList, fid, eid, numchans, stim_vals, var_list, offline)

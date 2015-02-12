@@ -32,19 +32,20 @@ end
 
 %% Plotting
 if vo_cond(1)<1
-	vis_stat='No Vis Stim';
+	vis_stat='';
 else
-	vis_stat='Vis Stim On';
+	vis_stat='{\color{gray}Vis Stim On}';
 end
 if vo_cond(2)<1
-	opto_stat='No Opto Light';
+	opto_stat='';
 else
-	opto_stat='Opto Light On';
+	opto_stat='{\color{blue}Opto Light On}';
 end
 figure(psth_fig_handle)
 
  set(psth_fig_handle, 'Name',sprintf('Channel %d, %s, %s',channel_plot,vis_stat, opto_stat),'NumberTitle','off');
- suptitle(sprintf('Channel %d, %s, %s',channel_plot,vis_stat, opto_stat));
+ 
+ suptitle([sprintf('Channel %d, %s, %s',channel_plot,vis_stat, opto_stat)]);
 for x=1:size(B,1)
 	hold off
 	subplot(subhandle{x})
@@ -62,8 +63,9 @@ for x=1:size(B,1)
 
 	%h=title( sprintf('%s : %.2g',y_sel,B(x)), 'FontSize', 12); %scientific
 	%notation version of titles.
-	h=title(strcat(y_sel,{': '},num2str(B(x))), 'FontSize', 10);
+	h=title(strcat(y_sel,{': '},num2str(B(x))), 'FontSize', 8, 'FontWeight','bold');
 	set(h, 'interpreter','none') %removes tex interpretation rules
+	
 	xticklabels=num2str((str2num(get(subhandle{x}, 'XTickLabel')).*1000));
 	set(subhandle{x},'XTickLabel',xticklabels, 'fontsize',8);
 	xlabel('Time (ms)', 'FontSize', 8);
