@@ -1,6 +1,6 @@
 function OEwrapper(varagin)
 %% Collect and work with data being actively acquired with the open-ephys software
-%Astra S. Bryant Jan 29, 2015
+%Astra Bryant / Ryan Morrill 2015
 
 
 
