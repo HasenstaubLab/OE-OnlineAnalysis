@@ -49,7 +49,7 @@ while ~KEY_IS_PRESSED
 	
 	if ~PLOT_SELECTED
 		
-		std_var_list = {'Time'};
+		std_var_list = {'Time', 'Time (zoom)'};
 		z_var_list = {'Firing rate'}; % Removed variance because it's not an active option yet.
 		%z_var_list = {'Firing rate', 'Variance'}; % Removed variance because it's not an active option yet.
 		fighand = figure;
@@ -97,7 +97,7 @@ while ~KEY_IS_PRESSED
 		fseek(eid,0,'bof');
 		fseek(fid{cpi}, 0, 'bof');
 		
-		if ~isempty(strmatch(x_sel,'Time','exact'))
+		if ~isempty(strmatch(x_sel,'Time','exact')) | ~isempty(strmatch(x_sel,'Time (zoom)', 'exact'))
 			y_idx = strmatch(y_sel,var_list,'exact');
 			y_prms = stim_vals{y_idx};
 			
@@ -308,7 +308,7 @@ scrnsize=get(0,'screensize');
 
 if ~isequal(size(find(cellfun('isempty', spikes_per_trial)>0),1), size(spikes_per_trial),1)
 	%% Making a PSTH
-	if strmatch('Time', x_sel) %| strmatch('Time', y_sel)
+	if strmatch('Time', x_sel) %this will match any x_sel containing 'Time', including 'Time' and 'Time (zoom)'
 		%disp('Time selected, make a histogram');
 		
 		%Normalize spike times to the start of each bin.

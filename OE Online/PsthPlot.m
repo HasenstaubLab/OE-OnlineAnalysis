@@ -5,8 +5,17 @@ function PsthPlot(duration, channel_plot, norm_spikes_per_trial, psth_fig_handle
 %replace with histcounts
 
 %% Get data into plottable formation
-binvals={[0:(duration/80):duration]};
-binwidth=duration/80;
+if strmatch('Time (zoom)', x_sel,'exact')
+	duration=.16;
+	binvals={[.1:(duration/80):.1+duration]};
+	binwidth=duration/80;
+	
+else
+	binvals={[0:(duration/160):duration]};
+	binwidth=duration/160;
+	
+end
+
 histbins=repmat(binvals, 1, size(norm_spikes_per_trial,2));
 
 bincounts = cellfun(@histc, norm_spikes_per_trial, histbins, 'UniformOutput',false)';
@@ -31,21 +40,52 @@ for x=1:size(B, 1)
 end
 
 %% Plotting
-if vo_cond(1)<1
+if ~isempty(v_sel)
+	if vo_cond(1)<1
+		vis_stat='';
+	else
+		vis_stat='{\color{gray}Vis Stim On}';
+	end
+else
 	vis_stat='';
-else
-	vis_stat='{\color{gray}Vis Stim On}';
 end
-if vo_cond(2)<1
-	opto_stat='';
+if ~isempty(o_sel)
+	if ~isempty(v_sel)
+		if vo_cond(2)<1
+			opto_stat='';
+		else
+			opto_stat='{\color{blue}Opto Light On}';
+		end
+	else
+		if vo_cond(1)<1
+			opto_stat='';
+		else
+			opto_stat='{\color{blue}Opto Light On}';
+		end
+		
+	end
 else
-	opto_stat='{\color{blue}Opto Light On}';
+	o_sel='';
 end
 figure(psth_fig_handle)
 
- set(psth_fig_handle, 'Name',sprintf('Channel %d, %s, %s',channel_plot,vis_stat, opto_stat),'NumberTitle','off');
+%title/figure naming
+if ~isempty(vis_stat) & ~isempty(opto_stat)
+	set(psth_fig_handle, 'Name',sprintf('Channel %d PSTH, Vis Stim and Opto Light On',channel_plot),'NumberTitle','off');
+	suptitle([sprintf('Channel %d PSTH, %s, %s',channel_plot,vis_stat, opto_stat)]);
+elseif ~isempty(vis_stat)
+	disp('t')
+	set(psth_fig_handle, 'Name',sprintf('Channel %d PSTH, Vis Stim On',channel_plot),'NumberTitle','off');
+	suptitle([sprintf('Channel %d PSTH, %s',channel_plot,vis_stat)]);
+elseif ~isempty(opto_stat)
+	set(psth_fig_handle, 'Name',sprintf('Channel %d PSTH, Opto Light On',channel_plot),'NumberTitle','off');
+	suptitle([sprintf('Channel %d PSTH, %s',channel_plot,opto_stat)]);	
+else
+	set(psth_fig_handle, 'Name',sprintf('Channel %d PSTH',channel_plot),'NumberTitle','off');
+	suptitle([sprintf('Channel %d PSTH',channel_plot)]);
+end
  
- suptitle([sprintf('Channel %d, %s, %s',channel_plot,vis_stat, opto_stat)]);
+ 
 for x=1:size(B,1)
 	hold off
 	subplot(subhandle{x})
@@ -54,9 +94,12 @@ for x=1:size(B,1)
 	%axis tight;
 	axis manual
 	ylim([0 ceil(max(max(sumcounts)))]);
-	xlim([-0.016 .8160]);
+	xlim([(binvals{1}(1)-0.016) (binvals{1}(end)+.016)]);
+	
+	%Add red lines indicating stimulus onset
 	plot([0.15 0.15], ylim, 'r');
 	plot([0.15+(duration-.3) 0.15+(duration-.3)], ylim, 'r');
+	
 	%bar(binvals{1}, bincounts', 'stacked');
 	%colormap(summer);
 	
@@ -66,7 +109,7 @@ for x=1:size(B,1)
 	h=title(strcat(y_sel,{': '},num2str(B(x))), 'FontSize', 8, 'FontWeight','bold');
 	set(h, 'interpreter','none') %removes tex interpretation rules
 	
-	xticklabels=num2str((str2num(get(subhandle{x}, 'XTickLabel')).*1000));
+	xticklabels=num2str((str2num(get(subhandle{x}, 'XTickLabel')).*1000)-150);
 	set(subhandle{x},'XTickLabel',xticklabels, 'fontsize',8);
 	xlabel('Time (ms)', 'FontSize', 8);
 	ylabel('Spikes/Trial', 'FontSize', 8);
