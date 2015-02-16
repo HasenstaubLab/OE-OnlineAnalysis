@@ -137,36 +137,46 @@ for record = 1:length(info.ts)
     current_sample = current_sample + info.nsamples(record);
 end
 
-lowthresh= -1;
-highthresh= 0;
-%prebuffer=1.0*info.header.sampleRate; %buffer of 1s before end of stimulus presentation: 
+%% New Triggers - QUAD CAPTURE
 
-lothreshxindex=find(datas<lowthresh);
-if isempty(lothreshxindex)
-    error('No trial triggers detected. Assume that experiment has finished. Aborting.');
-    %return
-end
-stim_end=lothreshxindex(find(diff(lothreshxindex)>5000));
-if ~isempty(stim_end)
-	stim_end=[stim_end, lothreshxindex(end)];
-elseif isempty(stim_end)
-	stim_end=lothreshxindex(1);
-end
+highthresh= 2.5;
 
-hithreshxindex=find(datas>highthresh);
+hithreshxindex=find(diff(datas>highthresh));
 if isempty(hithreshxindex)
     error('No new trial start triggers detected. Assume that experiment has finished. Aborting.');
-    %return
 end
 
+stim_start=hithreshxindex(find(datas(hithreshxindex)<highthresh))+1;
+stim_end=hithreshxindex(find(datas(hithreshxindex)>highthresh));
 
-stim_start=hithreshxindex(find(diff(hithreshxindex)>5000));
-if ~isempty(stim_start)
-	stim_start=[stim_start, hithreshxindex(end)];
-elseif isempty(stim_start)
-	stim_start=hithreshxindex(1);
-end
 
+%% Old Triggers - EMU
+% lowthresh= -1; highthresh= 0; %prebuffer=1.0*info.header.sampleRate;
+% %buffer of 1s before end of stimulus presentation:
+% 
+% lothreshxindex=find(datas<lowthresh); if isempty(lothreshxindex)
+%     error('No trial triggers detected. Assume that experiment has
+%     finished. Aborting.'); %return
+% end stim_end=lothreshxindex(find(diff(lothreshxindex)>5000)); if
+% ~isempty(stim_end)
+% 	stim_end=[stim_end, lothreshxindex(end)];
+% elseif isempty(stim_end)
+% 	stim_end=lothreshxindex(1);
+% end
+% 
+% hithreshxindex=find(datas>highthresh); if isempty(hithreshxindex)
+%     error('No new trial start triggers detected. Assume that experiment
+%     has finished. Aborting.'); %return
+% end
+% 
+% 
+% stim_start=hithreshxindex(find(diff(hithreshxindex)>5000)); if
+% ~isempty(stim_start)
+% 	stim_start=[stim_start, hithreshxindex(end)];
+% elseif isempty(stim_start)
+% 	stim_start=hithreshxindex(1);
+% end
+%%
 if ignorefirst>0
     stim_start=stim_start(2:end);
     stim_end=stim_end(2:end);
