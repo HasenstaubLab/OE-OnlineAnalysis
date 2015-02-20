@@ -187,6 +187,7 @@ end
 %uppoint, and start from there. While matching the location of the spikes
 %read location. 
 if numel(stim_start) ~= numel(stim_end)
+	%if ~isempty(stim_start) & ~isempty(stim_end) %this is hacky and may need some fixing....
     if stim_start(end)>stim_end(end) %if we have a trial trigger start, but not the trial trigger end, count to the end of the timestamps
         %stim_start(end)=[];
 		stim_end=[stim_end, numel(timestamps)];
@@ -198,7 +199,8 @@ if numel(stim_start) ~= numel(stim_end)
 		stim_start=[1, stim_start];
         specialcase='cutoffstart';
         disp('Warning: the read section started after the first trial started');
-    end
+	end
+	%end
 else
     specialcase='none';
 end

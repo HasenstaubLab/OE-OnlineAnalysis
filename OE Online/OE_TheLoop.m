@@ -313,7 +313,7 @@ if ~isequal(size(find(cellfun('isempty', spikes_per_trial)>0),1), size(spikes_pe
 		
 		%Normalize spike times to the start of each bin.
 		for i=1:trialcount
-			if numel(spikes_per_trial{i})>1
+			if numel(spikes_per_trial{i})>0
 				%disp(strcat({'start time of trial '}, num2str(i),{': '},num2str(trial_start_times(i))));
 				%disp(strcat({'time of first spike in trial '}, num2str(i),{': '},num2str(spikes_per_trial{i}(1))));
 				norm_spikes_per_trial{i}=spikes_per_trial{i}-trial_start_times(i);
@@ -464,7 +464,7 @@ pause(1)
 	elseif offline<1
 		filesize = getfilesize(fid{1},offline);
 		disp('Waiting 2 seconds, getting more data')
-		pause(2)
+		pause(4)
 % 		if getfilesize(fid{1},offline)==filesize
 % 			disp('Acqusision Halted')
 % 			break

@@ -65,7 +65,7 @@ if ~isempty(o_sel)
 		
 	end
 else
-	o_sel='';
+	opto_stat='';
 end
 figure(psth_fig_handle)
 
@@ -74,7 +74,6 @@ if ~isempty(vis_stat) & ~isempty(opto_stat)
 	set(psth_fig_handle, 'Name',sprintf('Channel %d PSTH, Vis Stim and Opto Light On',channel_plot),'NumberTitle','off');
 	suptitle([sprintf('Channel %d PSTH, %s, %s',channel_plot,vis_stat, opto_stat)]);
 elseif ~isempty(vis_stat)
-	disp('t')
 	set(psth_fig_handle, 'Name',sprintf('Channel %d PSTH, Vis Stim On',channel_plot),'NumberTitle','off');
 	suptitle([sprintf('Channel %d PSTH, %s',channel_plot,vis_stat)]);
 elseif ~isempty(opto_stat)
@@ -93,7 +92,8 @@ for x=1:size(B,1)
 	hold on
 	%axis tight;
 	axis manual
-	ylim([0 ceil(max(max(sumcounts)))]);
+	%ylim([0 ceil(max(max(sumcounts)))]);
+	ylim([0 (max(max(sumcounts)))]);
 	xlim([(binvals{1}(1)-0.016) (binvals{1}(end)+.016)]);
 	
 	%Add red lines indicating stimulus onset
