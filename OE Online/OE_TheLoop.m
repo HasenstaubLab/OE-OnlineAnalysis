@@ -50,22 +50,33 @@ while ~KEY_IS_PRESSED
 	if ~PLOT_SELECTED
 		
 		std_var_list = {'Time', 'Time (zoom)'};
+		%std_var_list = {'Time'};
 		z_var_list = {'Firing rate'}; % Removed variance because it's not an active option yet.
 		%z_var_list = {'Firing rate', 'Variance'}; % Removed variance because it's not an active option yet.
 		fighand = figure;
-		set(fighand, 'Position', [800 100 150 650], 'menubar', 'none')
-		x_hand = uicontrol(fighand, 'Style', 'listbox', 'Position', [10 460 130 160], 'FontSize', 12, 'String', [var_list std_var_list]);
-		uicontrol('Style', 'text', 'String', 'X axis', 'Position', [5 623 100 20]);
+		set(fighand, 'Position', [800 100 150 550], 'menubar', 'none')
+		x_hand = uicontrol(fighand, 'Style', 'listbox', 'Position', [10 440 130 80], 'FontSize', 12, 'String', [var_list std_var_list]);
+		uicontrol('Style', 'text', 'String', 'X axis', 'Position', [5 523 100 20]);
 		%y_hand = uicontrol(fighand, 'Style', 'listbox', 'Position', [10 265 130 160], 'FontSize', 12, 'String', [var_list std_var_list]);
-		y_hand = uicontrol(fighand, 'Style', 'listbox', 'Position', [10 265 130 160], 'FontSize', 12, 'String', [var_list]);
-		uicontrol('Style', 'text', 'String', 'Y axis', 'Position', [5 428 100 20]);
-		z_hand = uicontrol(fighand, 'Style', 'listbox', 'Position', [10 70 130 160], 'FontSize', 12, 'String', z_var_list);
-		uicontrol('Style', 'text', 'String', 'Z axis (heat)', 'Position', [5 233 100 20]);
-		c_hand = uicontrol('Style', 'popupmenu', 'Position', [10 37 100 30], 'FontSize', 12, 'String', chanList);
+		y_hand = uicontrol(fighand, 'Style', 'listbox', 'Position', [10 325 130 80], 'FontSize', 12, 'String', [var_list]);
+		uicontrol('Style', 'text', 'String', 'Y axis', 'Position', [5 408 100 20]);
+		z_hand = uicontrol(fighand, 'Style', 'listbox', 'Position', [10 210 130 80], 'FontSize', 12, 'String', z_var_list);
+		uicontrol('Style', 'text', 'String', 'Z axis (heat)', 'Position', [5 293 100 20]);
+        
+        tstart_hand= uicontrol('Style', 'edit', 'String', '0', 'Position', [10 145 130 30]);
+        uicontrol('Style','text','String','Start Time', 'Position',[5 180 100 20])
+        
+        tstop_hand=uicontrol('Style', 'edit', 'String', '500', 'Position', [10 80 130 30]);
+        uicontrol('Style', 'text','String', 'Stop Time', 'Position', [5 115 100 20]);
+		
+            
+        c_hand = uicontrol('Style', 'popupmenu', 'Position', [10 37 100 30], 'FontSize', 12, 'String', chanList);
+        
+        
+            
 		uicontrol('Style', 'PushButton', 'String', 'New plot', 'Position', [25 5 100 30], ...
 			'FontSize', 14, 'Callback', 'uiresume(gcbf)');
-		
-		disp('Waiting for user to select plot type');
+        disp('Waiting for user to select plot type');
 		uiwait(gcf);
 		disp('Plot type selected');
 		PLOT_SELECTED = 1;
@@ -91,6 +102,13 @@ while ~KEY_IS_PRESSED
 		cpi = find(strcmp(chanList, c_sel)); % cpi = channel plotting index. Use this to index the spikes_per_trial and trial_count array.
 		channel_plot = regexp(c_sel,'_CH','split');
 		channel_plot = str2num(channel_plot{1,2}); %use this for labeling
+        
+        %Figure out time window for plotting
+        start_sel=str2num(get(tstart_hand,'String'));
+        stop_sel=str2num(get(tstop_hand,'String'));
+        
+        timewindow=[start_sel/1000 stop_sel/1000];
+        
 		
 		%Move location of stimulus-file reader (eid) and spike file reader (fid) to beginning of the
 		%file - recapture previous data. 
@@ -425,10 +443,25 @@ if ~isequal(size(find(cellfun('isempty', spikes_per_trial)>0),1), size(spikes_pe
 			end
 		end
 		
+		timewindow=timewindow+.15; % (compensates for padding added around line 190 - right after ttl pulses called)
+        
+		for i=1:trialcount
+			if numel(spikes_per_trial{i})>0
+				%disp(strcat({'start time of trial '}, num2str(i),{': '},num2str(trial_start_times(i))));
+				%disp(strcat({'time of first spike in trial '}, num2str(i),{': '},num2str(spikes_per_trial{i}(1))));
+				norm_spikes_per_trial{i}=spikes_per_trial{i}-trial_start_times(i);
+				wind_spikes_per_trial{i}=norm_spikes_per_trial{i}(find(norm_spikes_per_trial{i}>timewindow(1) & norm_spikes_per_trial{i}<timewindow(2)));
+                %norm_spikes_per_trial{i}=spikes_per_trial{i}-spikes_per_trial{i}(1);
+				%disp(strcat({'relative timing of first spike: '}, num2str(norm_spikes_per_trial{i}(1))));
+				% 				if (norm_spikes_per_trial{i}(1))>1
+				% 					keyboard
+				% 				end
+            else wind_spikes_per_trial{i}=[];
+			end
+        end
 		
-		
-		
-		spike_data = cellfun(@numel,spikes_per_trial);
+        
+		spike_data = cellfun(@numel,wind_spikes_per_trial);
 		spike_data_padded=zeros(totaltrialno,1);
 		spike_data_padded(1:trialcount)=spike_data;
 		
@@ -438,13 +471,13 @@ if ~isequal(size(find(cellfun('isempty', spikes_per_trial)>0),1), size(spikes_pe
 			for x=1:logical_vars
 				input_spikes=spike_data_padded;
 				input_spikes(find(K~=x))=0;
-				HeatPlot(input_spikes,xy, y_idx, x_idx, nr_uniq_x, nr_uniq_y, uniq_x, uniq_y, y_sel, x_sel, channel_plot, heat_fig_handle(x),A(x,:))
+				HeatPlot(input_spikes,xy, y_idx, x_idx, nr_uniq_x, nr_uniq_y, uniq_x, uniq_y, y_sel, x_sel, channel_plot, heat_fig_handle(x),A(x,:), timewindow)
 				
 			end
 		else
 			
 			input_spikes=spike_data_padded;
-			HeatPlot(input_spikes,xy, y_idx, x_idx, nr_uniq_x, nr_uniq_y, uniq_x, uniq_y, y_sel, x_sel, channel_plot, heat_fig_handle,[0 0])
+			HeatPlot(input_spikes,xy, y_idx, x_idx, nr_uniq_x, nr_uniq_y, uniq_x, uniq_y, y_sel, x_sel, channel_plot, heat_fig_handle,[0 0], timewindow)
 			
 		end
 	end

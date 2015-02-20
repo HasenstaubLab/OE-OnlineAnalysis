@@ -1,4 +1,4 @@
-function HeatPlot (spike_data, xy, y_idx, x_idx, nr_uniq_x, nr_uniq_y, uniq_x, uniq_y, y_sel, x_sel, channel_plot, heat_fig_handle,vo_cond)
+function HeatPlot (spike_data, xy, y_idx, x_idx, nr_uniq_x, nr_uniq_y, uniq_x, uniq_y, y_sel, x_sel, channel_plot, heat_fig_handle,vo_cond, timewindow)
 % Heat plot. Feb 5, 2015, Astra S. Bryant
 % 
 % spike_data_padded=zeros(totaltrialno,1);
@@ -73,7 +73,7 @@ set(heat_fig_handle, 'Name',sprintf('Channel %d, %s, %s',channel_plot,vis_stat, 
 	set(gca, 'XTick', [1:nr_uniq_x]);
 	set(gca, 'XTickLabel', uniq_x);
 	set(gca,'fontsize',8);
-	title(sprintf('Channel %d, %s, %s',channel_plot,vis_stat, opto_stat),'FontSize',10);
+	title(sprintf('Channel %d, Time: %s-%s s, %s, %s',channel_plot,num2str(timewindow(1)-.15), num2str(timewindow(2)-.15), vis_stat, opto_stat),'FontSize',10);
 		
 
 
