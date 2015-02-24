@@ -23,8 +23,8 @@ end
 
 if offline>0
     disp('Offline Mode');
-    dirname = uigetdir('Z:\astra\OpenEphys sample data\', 'Select Data Directory');
-    % dirname = uigetdir('C:\Users\hlab\Documents\Data\', 'Select Data Directory');
+    %dirname = uigetdir('Z:\astra\OpenEphys sample data\', 'Select Data Directory');
+    dirname = uigetdir('C:\Users\hlab\Documents\Data\', 'Select Data Directory');
     cd(dirname);
 else
     %Search Data directory for the newest file folder
@@ -107,13 +107,16 @@ end
 % %var_list = evalin('base','var_list');
 % save(fullfile(dirname,'ZMQMessage'),'var_list', 'stim_vals');
 % end
-% 
+%     
+
+trial_info_dir = 'C:\Users\hlab\Documents\Data\exptStimData\';
 if offline > 0 %added to help with offline debugging on Onyx
     %load(fullfile(dirname,'ZMQMessage'))
-	zmqfilename = uigetfile;
+	[zmqfilename, zmq_dir] = uigetfile(trial_info_dir);
+	addpath(genpath(zmq_dir)); 
 	load(zmqfilename)
 else
-    trial_info_dir = 'C:\Users\hlab\Documents\Data\exptStimData\';
+
     contents = dir(trial_info_dir);
     
     % remove directories

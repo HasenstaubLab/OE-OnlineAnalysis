@@ -66,6 +66,8 @@ unsortedtimestamps = timestamps(1:current_spike);
 info.sortedId = info.sortedId(1:current_spike);
 timestamps=unsortedtimestamps(find(info.sortedId>0));
 
+disp(sprintf('%d percent of waveforms are sorted units', round((size(timestamps,2)/size(unsortedtimestamps,2))*100)));
+
 if (isfield(info.header,'sampleRate'))
     if ~ischar(info.header.sampleRate)
         timestamps = timestamps./info.header.sampleRate; % convert to seconds

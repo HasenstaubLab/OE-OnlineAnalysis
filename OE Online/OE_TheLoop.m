@@ -443,14 +443,14 @@ if ~isequal(size(find(cellfun('isempty', spikes_per_trial)>0),1), size(spikes_pe
 			end
 		end
 		
-		timewindow=timewindow+.15; % (compensates for padding added around line 190 - right after ttl pulses called)
+		shiftedtimewindow=timewindow+.15; % (compensates for padding added around line 190 - right after ttl pulses called)
         
 		for i=1:trialcount
 			if numel(spikes_per_trial{i})>0
 				%disp(strcat({'start time of trial '}, num2str(i),{': '},num2str(trial_start_times(i))));
 				%disp(strcat({'time of first spike in trial '}, num2str(i),{': '},num2str(spikes_per_trial{i}(1))));
 				norm_spikes_per_trial{i}=spikes_per_trial{i}-trial_start_times(i);
-				wind_spikes_per_trial{i}=norm_spikes_per_trial{i}(find(norm_spikes_per_trial{i}>timewindow(1) & norm_spikes_per_trial{i}<timewindow(2)));
+				wind_spikes_per_trial{i}=norm_spikes_per_trial{i}(find(norm_spikes_per_trial{i}>shiftedtimewindow(1) & norm_spikes_per_trial{i}<shiftedtimewindow(2)));
                 %norm_spikes_per_trial{i}=spikes_per_trial{i}-spikes_per_trial{i}(1);
 				%disp(strcat({'relative timing of first spike: '}, num2str(norm_spikes_per_trial{i}(1))));
 				% 				if (norm_spikes_per_trial{i}(1))>1
@@ -471,13 +471,13 @@ if ~isequal(size(find(cellfun('isempty', spikes_per_trial)>0),1), size(spikes_pe
 			for x=1:logical_vars
 				input_spikes=spike_data_padded;
 				input_spikes(find(K~=x))=0;
-				HeatPlot(input_spikes,xy, y_idx, x_idx, nr_uniq_x, nr_uniq_y, uniq_x, uniq_y, y_sel, x_sel, channel_plot, heat_fig_handle(x),A(x,:), timewindow)
+				HeatPlot(input_spikes,xy, y_idx, x_idx, nr_uniq_x, nr_uniq_y, uniq_x, uniq_y, y_sel, x_sel, channel_plot, heat_fig_handle(x),A(x,:), shiftedtimewindow)
 				
 			end
 		else
 			
 			input_spikes=spike_data_padded;
-			HeatPlot(input_spikes,xy, y_idx, x_idx, nr_uniq_x, nr_uniq_y, uniq_x, uniq_y, y_sel, x_sel, channel_plot, heat_fig_handle,[0 0], timewindow)
+			HeatPlot(input_spikes,xy, y_idx, x_idx, nr_uniq_x, nr_uniq_y, uniq_x, uniq_y, y_sel, x_sel, channel_plot, heat_fig_handle,[0 0], shiftedtimewindow)
 			
 		end
 	end
