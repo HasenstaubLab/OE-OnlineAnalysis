@@ -3,6 +3,7 @@ function OE_TheLoop_lfp(chanList, fid, eid, numchans, stim_vals, var_list, offli
 
 ttlinfo=[];
 waveforms=[];
+stimforms=[];
 trial_start_times=[];
 
 
@@ -235,24 +236,19 @@ while ~KEY_IS_PRESSED
 		break
 	end
 	
-	%Fetch timestamps of spikes that occured during a time window
+	%Fetch traces during a time window
 	%defined by the trial triggers Output: structure
-	%array, each stimulus presentation event, with vector of spike times
+	%array, each stimulus presentation event, with traces
 	%occuring during the time bin describes in ttlinfo. With subsequent
 	%itertions of the loop, new trials will be concatinated to the
-	%structure array. NOTE: The spike times are in real time, they are not
-	%yet normalized to the start of each time window.
+	%structure array.
 	
 	[temp, sfq]=OEreadlfp(fid{cpi},ttlinfo, offline);
 	waveforms=vertcat(waveforms, temp');
-	% 	if all(cellfun(@isempty,waveforms)) %if there are absolutely no spikes at all
-	% 		disp('No spikes in any bin. If actively acquiring, try restarting in a few moments')
-	% 		break
-	% 	end
 	
-	
-	%eval(['spikes_per_trial{' num2str(x) '}= vertcat(spikes_per_trial{' num2str(x) '}, ctranspose(OEread(fid{x},ttlinfo)));']);
-	%disp(strcat('fetched spikes from channel_', num2str(x)));
+	%Fetch traces of the stimulus presentation
+% 	[temp, sfq]= OEreadlfp(eid, ttlinfo, offline); % will need new file identifiers once we add in the stimulus waveform
+% 	stimforms=vertcat(stimforms, temp');
 	
 	%If file was read before the ongoing trial ended, save the spikes from
 	%that trial, for now
