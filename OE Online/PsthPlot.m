@@ -116,7 +116,8 @@ for x=1:size(B,1)
 
 end
 
-
+	filepath= cd;
+	print(gcf,'-dpng',fullfile(filepath, get(gcf,'Name')));
 
 
 end

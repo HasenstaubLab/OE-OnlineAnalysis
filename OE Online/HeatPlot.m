@@ -75,6 +75,7 @@ set(heat_fig_handle, 'Name',sprintf('Channel %d, %s, %s',channel_plot,vis_stat, 
 	set(gca,'fontsize',8);
 	title(sprintf('Channel %d, Time: %s-%s s, %s, %s',channel_plot,num2str(timewindow(1)-.15), num2str(timewindow(2)-.15), vis_stat, opto_stat),'FontSize',10);
 		
-
+	filepath= cd;
+	print(gcf,'-dpng',fullfile(filepath, get(gcf,'Name')));
 
 end
