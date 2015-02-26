@@ -462,7 +462,7 @@ if ~isequal(size(find(cellfun('isempty', spikes_per_trial)>0),1), size(spikes_pe
 		
         
 		spike_data = cellfun(@numel,wind_spikes_per_trial);
-		spike_data_padded=zeros(totaltrialno,1);
+		spike_data_padded=nan(totaltrialno,1);
 		spike_data_padded(1:trialcount)=spike_data;
 		
 		if ~isempty(vo)
@@ -470,7 +470,7 @@ if ~isequal(size(find(cellfun('isempty', spikes_per_trial)>0),1), size(spikes_pe
 				
 			for x=1:logical_vars
 				input_spikes=spike_data_padded;
-				input_spikes(find(K~=x))=0;
+				input_spikes(find(K~=x))=0; % RJM confused what does this do? 
 				HeatPlot(input_spikes,xy, y_idx, x_idx, nr_uniq_x, nr_uniq_y, uniq_x, uniq_y, y_sel, x_sel, channel_plot, heat_fig_handle(x),A(x,:), shiftedtimewindow)
 				
 			end
