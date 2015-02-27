@@ -1,4 +1,4 @@
-function PsthPlot(duration, channel_plot, norm_spikes_per_trial, psth_fig_handle, subhandle, xy, x_sel, y_sel,  v_sel, o_sel, vo_cond)
+function PsthPlot(duration, timewindow_padding, channel_plot, norm_spikes_per_trial, psth_fig_handle, subhandle, xy, x_sel, y_sel,  v_sel, o_sel, vo_cond)
 	
 % Histogram plot. Feb 9, 2015, Astra S. Bryant
 %REALLY IMPORTANT: if this program is run in R2014b, histc may not work.
@@ -97,8 +97,10 @@ for x=1:size(B,1)
 	xlim([(binvals{1}(1)-0.016) (binvals{1}(end)+.016)]);
 	
 	%Add red lines indicating stimulus onset
-	plot([0.15 0.15], ylim, 'r');
-	plot([0.15+(duration-.3) 0.15+(duration-.3)], ylim, 'r');
+% 	plot([0.15 0.15], ylim, 'r');
+% 	plot([0.15+(duration-.3) 0.15+(duration-.3)], ylim, 'r');
+ 	plot(timewindow_padding, ylim, 'r');
+ 	plot(timewindow_padding+(duration-sum(timewindow_padding)), ylim, 'r');
 	
 	%bar(binvals{1}, bincounts', 'stacked');
 	%colormap(summer);
@@ -109,7 +111,7 @@ for x=1:size(B,1)
 	h=title(strcat(y_sel,{': '},num2str(B(x))), 'FontSize', 8, 'FontWeight','bold');
 	set(h, 'interpreter','none') %removes tex interpretation rules
 	
-	xticklabels=num2str((str2num(get(subhandle{x}, 'XTickLabel')).*1000)-150);
+	xticklabels=num2str((str2num(get(subhandle{x}, 'XTickLabel')).*1000)-(timewindow_padding(1)*1000));
 	set(subhandle{x},'XTickLabel',xticklabels, 'fontsize',8);
 	xlabel('Time (ms)', 'FontSize', 8);
 	ylabel('Spikes/Trial', 'FontSize', 8);
