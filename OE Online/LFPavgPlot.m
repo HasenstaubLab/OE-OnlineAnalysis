@@ -73,10 +73,9 @@ for x=1:size(B,1)
 	%Add red lines indicating stimulus onset
 % 	plot([0.15 0.15], ylim, 'r');
 % 	plot([0.15+(duration-.3) 0.15+(duration-.3)], ylim, 'r');
- 	plot(timewindow_padding, ylim, 'r');
- 	plot(timewindow_padding+(duration-sum(timewindow_padding)), ylim, 'r');
-
-	
+ 	plot([timewindow_padding(1) timewindow_padding(1)], ylim, 'r');
+ 	plot([timewindow_padding(1)+(duration-sum(timewindow_padding)) timewindow_padding(1)+(duration-sum(timewindow_padding))], ylim, 'r');
+		
 	%adding lines that mark off every 50 ms. If click stimulus is at 20 Hz,
 	%there they will occur every 50 ms.
 	%for x=0.15:.05:(0.15+(duration-.3));
@@ -93,9 +92,9 @@ for x=1:size(B,1)
 	set(h, 'interpreter','none') %removes tex interpretation rules
 	
 	xticklabels=num2str((str2num(get(subhandle{x}, 'XTickLabel')).*1000)-(timewindow_padding(1)*1000));
-	set(subhandle{x},'XTickLabel',xticklabels, 'fontsize',8);
-	xlabel('Time (ms)', 'FontSize', 8);
-	ylabel('microVolts', 'FontSize', 8);
+	set(subhandle{x},'XTickLabel',xticklabels, 'fontsize',6);
+	xlabel('Time (ms)', 'FontSize', 6);
+	ylabel('microVolts', 'FontSize', 6);
 	
 end
 

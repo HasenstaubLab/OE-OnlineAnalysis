@@ -19,9 +19,12 @@ function OElfp(varagin)
 % else
 %     portnr=5557;
 % end
-
+% run OElfp(<insert arbitrary number here>) to run code in offline mode
+% run OElfp to run code in online mode
 if nargin>0
     offline=2;
+else
+	offline=0;
 end
 
 if offline>0

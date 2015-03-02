@@ -115,7 +115,7 @@ while ~KEY_IS_PRESSED
         stoppad_sel=str2num(get(stoppad_hand,'String'));
         
         timewindow_padding=[startpad_sel/1000 stoppad_sel/1000];
-        duration= ((timewindow(2)-timewindow(1))+ (timewindow_padding(1)+timewindow_padding(2))) %Used to be hard wired, this is only used by PSTH plot
+        duration= ((timewindow(2)-timewindow(1))+ (timewindow_padding(1)+timewindow_padding(2))); %Used to be hard wired, this is only used by PSTH plot
         
         
         %Move location of stimulus-file reader (eid) and spike file reader (fid) to beginning of the

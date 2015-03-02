@@ -4,20 +4,28 @@ function OEwrapper(varagin)
 
 
 
-button= questdlg('Run in Offline Mode?','','No');
-if strcmp(button, 'Yes')
-	offline=2;
-elseif strcmp(button, 'No')
-	offline = 0;
-elseif strcmp(button, 'Cancel')
-	error('User Canceled Run')
-end
+% button= questdlg('Run in Offline Mode?','','No');
+% if strcmp(button, 'Yes')
+% 	offline=2;
+% elseif strcmp(button, 'No')
+% 	offline = 0;
+% elseif strcmp(button, 'Cancel')
+% 	error('User Canceled Run')
+% end
+% 
+% 
+% if nargin>0
+%     portnr=varagin(1);
+% else
+%     portnr=5557;
+% end
 
-
+% run OEwrapper(<insert arbitrary number here>) to run code in offline mode
+% run OEwrapper to run code in online mode
 if nargin>0
-    portnr=varagin(1);
+    offline=2;
 else
-    portnr=5557;
+	offline=0;
 end
 
 
