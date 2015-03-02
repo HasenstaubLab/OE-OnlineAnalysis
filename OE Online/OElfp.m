@@ -20,10 +20,9 @@ function OElfp(varagin)
 %     portnr=5557;
 % end
 
-% if nargin>0
-%     offline=2;
-% end
-offline=0;
+if nargin>0
+    offline=2;
+end
 
 if offline>0
     disp('Offline Mode');
@@ -50,7 +49,7 @@ else
 end
 
 %find all .continuous files in the give directory.
-dirData = dir(fullfile(dirname, '106_CH*.continuous'));
+dirData = dir(fullfile(dirname, '100_CH*.continuous'));
 dirIndex = [dirData.isdir];
 fileList = {dirData(~dirIndex).name}';
 temp=regexp(fileList,'.*_CH\d*','match');
