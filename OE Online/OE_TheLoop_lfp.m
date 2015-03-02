@@ -172,6 +172,7 @@ while ~KEY_IS_PRESSED
 		ttlinfo=[];
 		trial_start_times=[];
 		waves=[];
+		waveforms=[];
 		
 		% This closes the output figures, in case this is not the first time
 		% through the channel-selection loop.
@@ -264,7 +265,7 @@ while ~KEY_IS_PRESSED
 	%onto the first trial the spikes detected in the last iteration.
 	if strmatch(specialcase,'cutoffstart')
 		if ~isempty(waveforms)
-			waveforms{size(waveforms,1)-(size(ttlinfo,1))+1}=horzcat(holdingpartialtrial, waveforms{size(spikes_per_trial,1)-(size(ttlinfo,1))+1});
+			waveforms{size(waveforms,1)-(size(ttlinfo,1))+1}=horzcat(holdingpartialtrial, waveforms{size(waveforms,1)-(size(ttlinfo,1))+1});
 		end
 	end
 	%

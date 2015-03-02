@@ -76,8 +76,8 @@ for x=1:size(B,1)
 	
 	%adding lines that mark off every 50 ms. If click stimulus is at 20 Hz,
 	%there they will occur every 50 ms.
-	for x=0.15:.05:(0.15+(duration-.3));
-	plot([x x], ylim/5, 'w');
+	for y=0.15:.05:(0.15+(duration-.3));
+	plot([y y], ylim/5, 'w');
 	end
 	%bar(binvals{1}, bincounts', 'stacked');
 	%colormap(summer);

@@ -1,5 +1,5 @@
 function HeatPlot (spike_data, xy, y_idx, x_idx, nr_uniq_x, nr_uniq_y, uniq_x, uniq_y, y_sel, x_sel, channel_plot, heat_fig_handle,vo_cond, timewindow)
-% Heat plot. Feb 5, 2015, Astra S. Bryant/Ryan Morrill
+% Heat plot. Feb 26, 2015, Astra S. Bryant/Ryan Morrill
 %
 % spike_data_padded=zeros(totaltrialno,1);
 % 	spike_data_padded(1:trialcount)=spike_data;
@@ -59,17 +59,18 @@ set(heat_fig_handle, 'Name',sprintf('Channel %d, %s, %s',channel_plot,vis_stat, 
 hold off
 % RJM MOD
 maxval = max(data_rs(:));
-data_rs(isnan(data_rs)) = maxval + maxval/20; % make nans a bit higher than the highest val 
+%data_rs(isnan(data_rs)) = maxval + maxval/20; 
+data_rs(isnan(data_rs)) = -1;
+% make nans a bit higher than the highest val 
 imagesc(data_rs)
 %END RJM MOD
 %imagesc(data_rs,[min(data_avg_sort(find(data_avg_sort>0)))-2,max(data_avg_sort(find(data_avg_sort>0)))]);
 hold on
 axis xy
-cmap = flipud([255:-1:0; zeros(1,256); zeros(1,256)]'/255);
-% colormap(flipud([255:-1:0; zeros(1,256); zeros(1,256)]'/255));
-%cmap=colormap();
-cmap=[cmap;.7 .7 .7]; % makes highest val light gray
-colormap(cmap);
+cmap = colormap(flipud([255:-1:0; zeros(1,256); zeros(1,256)]'/255));
+cmap=colormap();
+cmap=[.7 .7 .7; cmap]; % makes lowest val light gray
+colormap(gca, cmap); 
 colorbar();
 
 

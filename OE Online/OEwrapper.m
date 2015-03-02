@@ -38,7 +38,7 @@ else
     newestfolder=sorted{end};
     if strmatch(newestfolder, 'exptStimData')
         newestfolder = sorted{end-1};
-    end
+	end
     disp(strcat('Newest Folder:', newestfolder));
     
     dirname=fullfile(basepath,newestfolder);
@@ -72,7 +72,7 @@ numchans= size(spikefile,2);
 timingfile=regexp(temp{1},'_CH','split');
 ttlfile=strcat(timingfile{1,1}{1,1},'_ADC2.continuous');
 
-%Generate file identifiers for all the spike files
+%Generate file identifiers for all the spike files 
 for x=1:numchans
     eval(['fid{' num2str(x) '}=fopen(spikefile{x});']);
     if fid{x} == -1

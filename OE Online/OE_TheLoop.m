@@ -226,8 +226,8 @@ while ~KEY_IS_PRESSED
 % 	elseif size(ttlinfo,1)==1
 % 		duration=(ttlinfo(1,2)-ttlinfo(1,1)); %
 % 	end
-	duration= .8; %800 milliseconds
-		
+	duration= .6; %800 milliseconds
+		holdingpartialtrial=[];
 	disp(strcat('Number of trials since last data pull: ', num2str(size(ttlinfo,1))))
 	if numel(ttlinfo)<1
 		disp('No new trials, assume acquisition has halted')
@@ -379,7 +379,7 @@ if ~isequal(size(find(cellfun('isempty', spikes_per_trial)>0),1), size(spikes_pe
 					
 					%PSTH_fig_handle(y)=subplot(2,2,y)
 			else
-				psth_fig_handle=figure('Position',[50, (scrnsize(4)-round(scrnsize(4)*.6)-100), round(scrnsize(3)*.6), round(scrnsize(4)*.6)]);
+				psth_fig_handle=figure('Position',[50, (scrnsize(4)-round(scrnsize(4)*.8)-100), round(scrnsize(3)*.8), round(scrnsize(4)*.8)]);
 
 			end
 			
@@ -464,7 +464,7 @@ if ~isequal(size(find(cellfun('isempty', spikes_per_trial)>0),1), size(spikes_pe
 		spike_data = cellfun(@numel,wind_spikes_per_trial);
 		spike_data_padded=nan(totaltrialno,1);
 		spike_data_padded(1:trialcount)=spike_data;
-		
+
 		if ~isempty(vo)
 			
 				
