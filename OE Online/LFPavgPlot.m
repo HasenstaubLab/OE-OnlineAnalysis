@@ -1,4 +1,4 @@
-function LFPavgPlot(duration, channel_plot, waves, psth_fig_handle, subhandle, xy, x_sel, y_sel,  v_sel, o_sel, vo_cond, sfq)
+function LFPavgPlot(duration, timewindow_padding, channel_plot, waves, psth_fig_handle, subhandle, xy, x_sel, y_sel,  v_sel, o_sel, vo_cond, sfq)
 	
 % LFP average plot. Feb 25, 2015, Astra S. Bryant
 
@@ -71,13 +71,22 @@ for x=1:size(B,1)
 	%axis manual
 	
 	%Add red lines indicating stimulus onset
-	plot([0.15 0.15], ylim, 'r');
-	plot([0.15+(duration-.3) 0.15+(duration-.3)], ylim, 'r');
+% 	plot([0.15 0.15], ylim, 'r');
+% 	plot([0.15+(duration-.3) 0.15+(duration-.3)], ylim, 'r');
+ 	plot(timewindow_padding, ylim, 'r');
+ 	plot(timewindow_padding+(duration-sum(timewindow_padding)), ylim, 'r');
+
 	
 	%adding lines that mark off every 50 ms. If click stimulus is at 20 Hz,
 	%there they will occur every 50 ms.
+<<<<<<< HEAD
 	for y=0.15:.05:(0.15+(duration-.3));
 	plot([y y], ylim/5, 'w');
+=======
+	%for x=0.15:.05:(0.15+(duration-.3));
+    for x= timewindow_padding(1):.05:timewindow_padding+(duration-sum(timewindow_padding)); %replace the .05 with the frequency of firing
+	plot([x x], ylim/5, 'w');
+>>>>>>> origin/master
 	end
 	%bar(binvals{1}, bincounts', 'stacked');
 	%colormap(summer);
@@ -88,7 +97,7 @@ for x=1:size(B,1)
 	h=title(strcat(y_sel,{': '},num2str(B(x))), 'FontSize', 8, 'FontWeight','bold');
 	set(h, 'interpreter','none') %removes tex interpretation rules
 	
-	xticklabels=num2str((str2num(get(subhandle{x}, 'XTickLabel')).*1000)-150);
+	xticklabels=num2str((str2num(get(subhandle{x}, 'XTickLabel')).*1000)-(timewindow_padding(1)*1000));
 	set(subhandle{x},'XTickLabel',xticklabels, 'fontsize',8);
 	xlabel('Time (ms)', 'FontSize', 8);
 	ylabel('microVolts', 'FontSize', 8);
