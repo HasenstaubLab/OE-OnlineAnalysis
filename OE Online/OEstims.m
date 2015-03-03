@@ -193,7 +193,7 @@ if numel(stim_start) ~= numel(stim_end)
         %stim_start(end)=[];
 		stim_end=[stim_end, numel(timestamps)];
         specialcase='cutoffending';
-        disp('Warning: the read section ended before the last trial ended, discarding trial');
+        disp('Warning: the read section ended before the last trial ended');
     else %if we have a trial trigger end, but not the start, start the first bin at the start of the recording
         
 		%stim_start=stim_start(2:end);

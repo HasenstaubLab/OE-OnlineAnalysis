@@ -64,7 +64,7 @@ while ~KEY_IS_PRESSED
         uicontrol('Style', 'text', 'String', 'Z axis (heat)', 'Position', [5 293 100 20]);
         
         tstart_hand= uicontrol('Style', 'edit', 'String', '0', 'Position', [20 145 50 30]);
-        tstop_hand=uicontrol('Style', 'edit', 'String', '500', 'Position', [90 145 50 30]);
+        tstop_hand=uicontrol('Style', 'edit', 'String', '100', 'Position', [90 145 50 30]);
         uicontrol('Style','text','String','Heat Map Time Window: Start/End', 'Position',[5 180 140 25])
         
         startpad_hand= uicontrol('Style', 'edit', 'String', '150', 'Position', [20 80 50 30]);
@@ -132,7 +132,7 @@ while ~KEY_IS_PRESSED
             nr_uniq_y = numel(uniq_y);
             xy = [y_prms'];
             
-        else
+		else
             x_idx = strmatch(x_sel,var_list,'exact');
             y_idx = strmatch(y_sel,var_list,'exact');
             x_prms = stim_vals{x_idx};

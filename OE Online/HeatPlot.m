@@ -23,7 +23,10 @@ function HeatPlot (spike_data, xy, y_idx, x_idx, nr_uniq_x, nr_uniq_y, uniq_x, u
 %only average cells in the spike_data_padded array where the spike
 %count is greater than zero. Otherwise, will get averaging error as
 %values are filled in with increasing trial numbers.
-[~,y_sort_idx] = sort(B(:,y_idx));
+
+% RJM y_idx should always be 2, because xy = [x_prms y_prms]
+% [~,y_sort_idx] = sort(B(:,y_idx));
+[~,y_sort_idx] = sort(B(:,2));
 
 % RJM does this do what we think it does?
 % excludes any real data with spike count = 0
@@ -57,18 +60,23 @@ end
 figure(heat_fig_handle)
 set(heat_fig_handle, 'Name',sprintf('Channel %d, %s, %s',channel_plot,vis_stat, opto_stat),'NumberTitle','off');
 hold off
+%figure
 % RJM MOD
-maxval = max(data_rs(:));
-data_rs(isnan(data_rs)) = maxval + maxval/20; % make nans a bit higher than the highest val 
-imagesc(data_rs)
+% maxval = max(data_rs(:));
+% data_rs(isnan(data_rs)) = maxval + maxval/20; % make nans a bit higher than the highest val 
+data_rs(isnan(data_rs)) = -0.1; 
+clims=[-.1 max(max(data_rs))];
+% clims=[min(min(data_rs)) max(max(data_rs))];
+imagesc(data_rs, clims)
 %END RJM MOD
 %imagesc(data_rs,[min(data_avg_sort(find(data_avg_sort>0)))-2,max(data_avg_sort(find(data_avg_sort>0)))]);
 hold on
 axis xy
-cmap = flipud([255:-1:0; zeros(1,256); zeros(1,256)]'/255);
+%cmap=colormap(jet(255));
+cmap = flipud([254:-1:0; zeros(1,255); zeros(1,255)]'/254);
 % colormap(flipud([255:-1:0; zeros(1,256); zeros(1,256)]'/255));
 %cmap=colormap();
-cmap=[cmap;.7 .7 .7]; % makes highest val light gray
+cmap=[.7 .7 .7;cmap]; % makes lowest val light gray
 colormap(cmap);
 colorbar();
 
