@@ -72,8 +72,8 @@ imagesc(data_rs, clims)
 %imagesc(data_rs,[min(data_avg_sort(find(data_avg_sort>0)))-2,max(data_avg_sort(find(data_avg_sort>0)))]);
 hold on
 axis xy
-%cmap=colormap(jet(255));
-cmap = flipud([254:-1:0; zeros(1,255); zeros(1,255)]'/254);
+cmap=colormap(jet(255));
+%cmap = flipud([254:-1:0; zeros(1,255); zeros(1,255)]'/254);
 % colormap(flipud([255:-1:0; zeros(1,256); zeros(1,256)]'/255));
 %cmap=colormap();
 cmap=[.7 .7 .7;cmap]; % makes lowest val light gray

@@ -37,8 +37,8 @@ CHANNEL_SELECTED = 0;
 
 set(usershutdownhandle, 'KeyPressFcn', @myKeyPressFcn)
 
-disp('Pausing for 2 seconds to make sure stimuli have started playing');
-pause(2)
+% disp('Pausing for 2 seconds to make sure stimuli have started playing');
+% pause(2)
 filesize = getfilesize(fid{1}, offline);
 
 %% Start the Loop!
@@ -67,8 +67,8 @@ while ~KEY_IS_PRESSED
         tstop_hand=uicontrol('Style', 'edit', 'String', '100', 'Position', [90 145 50 30]);
         uicontrol('Style','text','String','Heat Map Time Window: Start/End', 'Position',[5 180 140 25])
         
-        startpad_hand= uicontrol('Style', 'edit', 'String', '150', 'Position', [20 80 50 30]);
-        stoppad_hand=uicontrol('Style', 'edit', 'String', '150', 'Position', [90 80 50 30]);
+        startpad_hand= uicontrol('Style', 'edit', 'String', '50', 'Position', [20 80 50 30]);
+        stoppad_hand=uicontrol('Style', 'edit', 'String', '50', 'Position', [90 80 50 30]);
         uicontrol('Style', 'text','String', 'Pre/Post-Stim Padding', 'Position', [5 115 140 25]);
         
         
@@ -506,7 +506,7 @@ while ~KEY_IS_PRESSED
     elseif offline<1
         filesize = getfilesize(fid{1},offline);
         disp('Waiting 2 seconds, getting more data')
-        pause(4)
+        pause(2)
         % 		if getfilesize(fid{1},offline)==filesize
         % 			disp('Acqusision Halted')
         % 			break
