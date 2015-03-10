@@ -85,7 +85,7 @@ end
     
     eid=fopen(ttlfile);
 if eid == -1
-	error('Could not open ADC file %s in directory %', ttlfile, dirname); 
+	error('Could not open ADC file %s in directory %s', ttlfile, dirname); 
 	return
 end
 
