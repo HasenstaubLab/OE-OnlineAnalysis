@@ -3,6 +3,8 @@ function PsthPlot(duration, timewindow_padding, channel_plot, norm_spikes_per_tr
 % Histogram plot. Feb 9, 2015, Astra S. Bryant
 %REALLY IMPORTANT: if this program is run in R2014b, histc may not work.
 %replace with histcounts
+% bin_count = 160; 
+bin_count = 80; 
 
 %% Get data into plottable formation
 if strmatch('Time (zoom)', x_sel,'exact')
@@ -11,8 +13,8 @@ if strmatch('Time (zoom)', x_sel,'exact')
 	binwidth=duration/80;
 	
 else
-	binvals={[0:(duration/160):duration]};
-	binwidth=duration/160;
+	binvals={[0:(duration/bin_count):duration]};
+	binwidth=duration/bin_count;
 	
 end
 
